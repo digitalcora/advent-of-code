@@ -12,4 +12,9 @@ RSpec.describe Day1 do
     expect(Day1.new(')))').floor).to eq(-3)
     expect(Day1.new(')())())').floor).to eq(-3)
   end
+
+  it 'gives the position of the first direction that enters the basement' do
+    expect(Day1.new(')').basement).to eq 1
+    expect(Day1.new('()())').basement).to eq 5
+  end
 end

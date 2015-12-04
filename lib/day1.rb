@@ -15,4 +15,17 @@ class Day1
 
     floor
   end
+
+  def basement
+    floor = 0
+
+    @directions.each_char.with_index do |character, index|
+      floor += 1 if character == '('
+      floor -= 1 if character == ')'
+
+      return index + 1 if floor < 0
+    end
+
+    nil
+  end
 end
