@@ -5,7 +5,7 @@ class Day1
     @directions = directions
   end
 
-  def floor
+  def final_floor
     floor = 0
 
     @directions.each_char do |character|
@@ -16,7 +16,7 @@ class Day1
     floor
   end
 
-  def basement
+  def basement_position
     floor = 0
 
     @directions.each_char.with_index do |character, index|
