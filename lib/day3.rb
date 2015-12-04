@@ -5,12 +5,14 @@ class Day3
     @directions = directions
   end
 
-  def visited_houses
+  def visited_houses(santas: 1)
     houses = Hash.new{ |hash, key| hash[key] = Hash.new(0) }
-    position = { x: 0, y: 0 }
+    positions = Array.new(santas){ { x: 0, y: 0 } }
     houses[0][0] = 1
 
-    @directions.each_char do |direction|
+    @directions.each_char.with_index do |direction, index|
+      position = positions[index % santas]
+
       case direction
       when '^' then position[:y] -= 1
       when 'v' then position[:y] += 1
