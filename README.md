@@ -1,2 +1,3 @@
-# advent-of-code
-My personal solutions to http://adventofcode.com/
+# Advent of Code
+
+On the first day of Advent, Ruby gave to me...
