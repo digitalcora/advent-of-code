@@ -1,3 +1,5 @@
+# --- Day 6: Probably a Fire Hazard ---
+
 class Day6
   def initialize(instructions)
     @instructions = instructions.lines.map do |instruction|

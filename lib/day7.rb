@@ -1,3 +1,5 @@
+# --- Day 7: Some Assembly Required ---
+
 class Day7
   def initialize(raw_instructions)
     @gates = assemble_gates(parse_instructions(raw_instructions))
