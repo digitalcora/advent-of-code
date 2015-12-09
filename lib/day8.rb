@@ -7,8 +7,12 @@ class Day8
     @strings = strings.split("\n")
   end
 
-  def overhead
+  def decode_overhead
     parsed_strings = @strings.map{ |string| YAML.load(string) }
     @strings.join.length - parsed_strings.join.length
+  end
+
+  def encode_overhead
+    @strings.map(&:inspect).join.length - @strings.join.length
   end
 end
