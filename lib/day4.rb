@@ -8,15 +8,10 @@ class Day4
   end
 
   def mine_coin(difficulty:)
-    suffix = 0
-    target_zeros = '0' * difficulty
+    target = '0' * difficulty
 
-    loop do
-      suffix += 1
-
-      if Digest::MD5.hexdigest(@prefix + suffix.to_s).start_with?(target_zeros)
-        return suffix
-      end
+    (1..Float::INFINITY).find do |suffix|
+      Digest::MD5.hexdigest(@prefix + suffix.to_s).start_with?(target)
     end
   end
 end
