@@ -6,9 +6,9 @@ class Day3
   end
 
   def visited_houses(santas: 1)
-    houses = Hash.new{ |hash, key| hash[key] = Hash.new(0) }
+    houses = Hash.new{ |hash, key| hash[key] = {} }
     positions = Array.new(santas){ { x: 0, y: 0 } }
-    houses[0][0] = 1
+    houses[0][0] = true
 
     @directions.each_char.with_index do |direction, index|
       position = positions[index % santas]
@@ -20,7 +20,7 @@ class Day3
       when '>' then position[:x] += 1
       end
 
-      houses[position[:y]][position[:x]] += 1
+      houses[position[:y]][position[:x]] = true
     end
 
     houses.values.flat_map(&:values).count
