@@ -11,12 +11,7 @@ class Day10
 
       loop do
         yielder << value
-
-        value = ''.tap do |next_value|
-          value.scan(/((.)\2*)/).each do |digits, digit|
-            next_value << digits.length.to_s << digit
-          end
-        end
+        value = value.gsub(/(.)\1*/){ |digits| digits.length.to_s + digits[0] }
       end
     end
   end
