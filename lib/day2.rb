@@ -10,7 +10,7 @@ class Day2
       area = sides.combination(2).map{ |pair| pair.reduce(:*) }.reduce(:+) * 2
       smallest_side_area = sides.sort[0..1].reduce(:*)
 
-      total += area + smallest_side_area
+      total + area + smallest_side_area
     end
   end
 
@@ -19,7 +19,7 @@ class Day2
       smallest_perimeter = sides.sort[0..1].reduce(:+) * 2
       volume = sides.reduce(:*)
 
-      total += smallest_perimeter + volume
+      total + smallest_perimeter + volume
     end
   end
 end
