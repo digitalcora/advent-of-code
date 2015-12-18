@@ -7,24 +7,17 @@ class Day12
     @document = JSON.parse(json)
   end
 
-  def sum(object = @document)
+  def sum(object: @document, ignore_red: false)
     case object
     when String, [], {} then 0
     when Numeric then object
-    when Array, Hash then object.to_a.map{ |item| sum(item) }.reduce(:+)
-    end
-  end
-
-  def corrected_sum(object = @document)
-    case object
-    when String, [], {} then 0
-    when Numeric then object
-    when Array then object.map{ |item| corrected_sum(item) }.reduce(:+)
+    when Array
+      object.map{ |item| sum(object: item, ignore_red: ignore_red) }.reduce(:+)
     when Hash
-      if object.values.include?('red')
+      if ignore_red && object.values.include?('red')
         0
       else
-        corrected_sum(object.values)
+        sum(object: object.values, ignore_red: ignore_red)
       end
     end
   end
