@@ -3,39 +3,39 @@
 require 'ostruct'
 
 class Day15
+  INGREDIENT_FORMAT = /
+    (?<capacity>\S+),.*\s
+    (?<durability>\S+),.*\s
+    (?<flavor>\S+),.*\s
+    (?<texture>\S+),.*\s
+    (?<calories>\S+)
+  /x
+
+  SCORING_PROPERTIES = %i(capacity durability flavor texture)
+  PROPERTIES = SCORING_PROPERTIES + %i(calories)
+
   def initialize(ingredients)
     @ingredients = ingredients.lines.map do |ingredient|
-      properties = ingredient.match(/
-        (?<capacity>\S+),.*\s
-        (?<durability>\S+),.*\s
-        (?<flavor>\S+),.*\s
-        (?<texture>\S+),.*\s
-        (?<calories>\S+)
-      /x)
-
-      properties.names.zip(properties.captures.map(&:to_i)).to_h
+      properties = ingredient.match(INGREDIENT_FORMAT)
+      properties.names.map(&:to_sym).zip(properties.captures.map(&:to_i)).to_h
     end
   end
 
-  def possible_scores
-    scoring_properties = %w(capacity durability flavor texture)
+  def scores(calories: nil)
+    recipes.map do |recipe|
+      properties = recipe_properties(recipe)
 
-    possible_recipes.map do |recipe|
-      property_scores = scoring_properties.map do |property|
-        ingredient_scores = recipe.map.with_index do |ingredient_amount, index|
-          ingredient_amount * @ingredients[index][property]
-        end
-
-        [ingredient_scores.reduce(:+), 0].max
+      if calories.nil? || properties[:calories] == calories
+        properties.values_at(*SCORING_PROPERTIES).reduce(:*)
+      else
+        0
       end
-
-      property_scores.reduce(:*)
     end
   end
 
   private
 
-  def possible_recipes
+  def recipes
     amounts = [100] + ([0] * (@ingredients.size - 1))
 
     Enumerator.new do |yielder|
@@ -49,6 +49,18 @@ class Day15
         balance = amounts[split_index]
         amounts[split_index] = 0
         amounts[0] = balance
+      end
+    end
+  end
+
+  def recipe_properties(ingredient_amounts)
+    {}.tap do |properties|
+      PROPERTIES.map do |property|
+        property_amounts = ingredient_amounts.map.with_index do |amount, index|
+          amount * @ingredients[index][property]
+        end
+
+        properties[property] = [property_amounts.reduce(:+), 0].max
       end
     end
   end
