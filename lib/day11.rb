@@ -11,7 +11,7 @@ class Day11
 
       loop do
         password.next!
-        yielder << password
+        yielder << password.dup
       end
     end
 

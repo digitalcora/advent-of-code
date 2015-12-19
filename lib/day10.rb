@@ -10,8 +10,8 @@ class Day10
       value = @first_value
 
       loop do
-        yielder << value
-        value = value.gsub(/(.)\1*/){ |digits| digits.length.to_s + digits[0] }
+        yielder << value.dup
+        value.gsub!(/(.)\1*/){ |digits| digits.length.to_s + digits[0] }
       end
     end
   end
