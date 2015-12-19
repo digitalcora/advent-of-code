@@ -5,7 +5,7 @@ require 'ostruct'
 class Day15
   def initialize(ingredients)
     @ingredients = ingredients.lines.map do |ingredient|
-      stats = ingredient.match(/
+      properties = ingredient.match(/
         (?<capacity>\S+),.*\s
         (?<durability>\S+),.*\s
         (?<flavor>\S+),.*\s
@@ -13,27 +13,43 @@ class Day15
         (?<calories>\S+)
       /x)
 
-      stats.names.zip(stats.captures.map(&:to_i)).to_h
+      properties.names.zip(properties.captures.map(&:to_i)).to_h
     end
   end
 
-  def highest_score
-    scoring_stats = %w(capacity durability flavor texture)
+  def possible_scores
+    scoring_properties = %w(capacity durability flavor texture)
 
-    (0..100).to_a.repeated_permutation(@ingredients.size).map do |amounts|
-      if amounts.reduce(:+) == 100
-        scoring_stats.reduce(1) do |total_score, stat|
-          stat_score =
-            amounts.each_with_index.reduce(0) do |total, (amount, index)|
-              total + (amount * @ingredients[index][stat])
-            end
-
-          break 0 if stat_score <= 0
-          total_score * stat_score
+    possible_recipes.map do |recipe|
+      property_scores = scoring_properties.map do |property|
+        ingredient_scores = recipe.map.with_index do |ingredient_amount, index|
+          ingredient_amount * @ingredients[index][property]
         end
-      else
-        0
+
+        [ingredient_scores.reduce(:+), 0].max
       end
-    end.max
+
+      property_scores.reduce(:*)
+    end
+  end
+
+  private
+
+  def possible_recipes
+    amounts = [100] + ([0] * (@ingredients.size - 1))
+
+    Enumerator.new do |yielder|
+      loop do
+        yielder << amounts.dup
+        raise StopIteration if amounts.last == 100
+
+        split_index = amounts.find_index(&:nonzero?)
+        amounts[split_index] -= 1
+        amounts[split_index + 1] += 1
+        balance = amounts[split_index]
+        amounts[split_index] = 0
+        amounts[0] = balance
+      end
+    end
   end
 end

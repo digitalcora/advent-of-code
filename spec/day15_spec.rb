@@ -7,6 +7,6 @@ RSpec.describe Day15 do
       'Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3'
     ].join("\n")
 
-    expect(Day15.new(ingredients).highest_score).to eq 62842880
+    expect(Day15.new(ingredients).possible_scores.max).to eq 62842880
   end
 end
