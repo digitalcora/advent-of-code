@@ -2,7 +2,7 @@
 
 class Day6
   def initialize(instructions)
-    @instructions = instructions.lines.map do |instruction|
+    @instructions = instructions.each_line.map do |instruction|
       instruction.match(/
         (?<action>turn\ on|turn\ off|toggle)\s
         (?<x1>\d+),(?<y1>\d+)\s

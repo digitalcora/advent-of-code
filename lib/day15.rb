@@ -13,7 +13,7 @@ class Day15
   PROPERTIES = SCORING_PROPERTIES + %i(calories)
 
   def initialize(ingredients)
-    @ingredients = ingredients.lines.map do |ingredient|
+    @ingredients = ingredients.each_line.map do |ingredient|
       properties = ingredient.match(INGREDIENT_FORMAT)
       properties.names.map(&:to_sym).zip(properties.captures.map(&:to_i)).to_h
     end

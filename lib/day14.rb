@@ -4,7 +4,7 @@ require 'ostruct'
 
 class Day14
   def initialize(reindeer)
-    @reindeer = reindeer.lines.map do |racer|
+    @reindeer = reindeer.each_line.map do |racer|
       name = racer.match(/(\S+) can fly/)[1]
       stat_parts = racer.match(/
         (?:\S+).can.fly.

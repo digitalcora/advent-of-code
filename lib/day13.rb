@@ -5,7 +5,7 @@ class Day13
     @nodes = Set.new
     @edges = Hash.new
 
-    edges.lines.each do |edge|
+    edges.each_line do |edge|
       parts = edge.match(/
         (?<person1>\S+).would.
         (?<sign>gain|lose).

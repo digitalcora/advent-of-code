@@ -12,7 +12,7 @@ class Day7
   private
 
   def parse_instructions(raw_instructions)
-    raw_instructions.lines.map do |instruction_string|
+    raw_instructions.each_line.map do |instruction_string|
       instruction_string.match(/
         ^(
           (?<input1>\S+) |

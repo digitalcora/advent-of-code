@@ -5,7 +5,7 @@ class Day9
     @nodes = Set.new
     @edges = Hash.new
 
-    edges.lines.each do |edge|
+    edges.each_line.each do |edge|
       parts = edge.match(/(?<place1>\S+) to (?<place2>\S+) = (?<distance>\S+)/)
       nodes = [parts[:place1], parts[:place2]].to_set
 
