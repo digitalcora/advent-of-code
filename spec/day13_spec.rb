@@ -2,7 +2,17 @@ require 'day13'
 
 RSpec.describe Day13 do
   it 'finds the happiness totals of all possible seating arrangements' do
-    edges = [
+    totals = Day13.new(test_edges).happiness_totals
+    expect(totals.max).to eq 330
+  end
+
+  it 'finds happiness totals after including an extra "neutral" guest' do
+    totals = Day13.new(test_edges, add_neutral: true).happiness_totals
+    expect(totals.max).to eq 286
+  end
+
+  def test_edges
+    [
       'Alice would gain 54 happiness units by sitting next to Bob.',
       'Alice would lose 79 happiness units by sitting next to Carol.',
       'Alice would lose 2 happiness units by sitting next to David.',
@@ -16,11 +26,5 @@ RSpec.describe Day13 do
       'David would lose 7 happiness units by sitting next to Bob.',
       'David would gain 41 happiness units by sitting next to Carol.'
     ].join("\n")
-
-    totals = Day13.new(edges).happiness_totals
-    totals_with_neutral = Day13.new(edges, add_neutral: true).happiness_totals
-
-    expect(totals.max).to eq 330
-    expect(totals_with_neutral.max).to eq 286
   end
 end
