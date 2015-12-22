@@ -5,24 +5,28 @@ class Day11
     @current_password = current_password
   end
 
+  BAD_CHARACTERS = /[ilo]/
+  TWO_PAIRS = /(([a-z])\2.*){2}/
+  STRAIGHT_RUN = Regexp.union(('a'..'z').each_cons(3).map(&:join))
+
   def next_password
-    next_passwords = Enumerator.new do |yielder|
+    next_passwords.find do |password|
+      password !~ BAD_CHARACTERS\
+      && password =~ TWO_PAIRS\
+      && password =~ STRAIGHT_RUN
+    end
+  end
+
+  private
+
+  def next_passwords
+    Enumerator.new do |yielder|
       password = @current_password
 
       loop do
         password.next!
         yielder << password.dup
       end
-    end
-
-    pairs = ('a'..'z').map{ |letter| letter * 2 }.join('|')
-    two_pairs = Regexp.new("(#{pairs}).*(#{pairs})")
-    straight_run = Regexp.new(('a'..'z').each_cons(3).map(&:join).join('|'))
-
-    next_passwords.find do |password|
-      password =~ straight_run\
-      && password !~ /[ilo]/\
-      && password =~ two_pairs
     end
   end
 end
