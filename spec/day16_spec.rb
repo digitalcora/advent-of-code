@@ -3,12 +3,12 @@ require 'day16'
 RSpec.describe Day16 do
   it 'determines which Aunt Sue sent the gift using the initial rules' do
     sender = Day16.new(gift: test_gift, aunts: test_aunts).initial_sender
-    expect(sender).to eq 'Sue 4'
+    expect(sender[:name]).to eq 'Sue 4'
   end
 
   it 'determines which Aunt Sue sent the gift using the corrected rules' do
     sender = Day16.new(gift: test_gift, aunts: test_aunts).corrected_sender
-    expect(sender).to eq 'Sue 2'
+    expect(sender[:name]).to eq 'Sue 2'
   end
 
   def test_gift

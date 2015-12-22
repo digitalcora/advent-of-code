@@ -3,18 +3,21 @@
 require 'ostruct'
 
 class Day14
+  RACER_FORMAT = /
+    (?<name>\S+).can.fly.
+    (?<speed>\S+).km\/s.for.
+    (?<fly_time>\S+).seconds,.but.then.must.rest.for.
+    (?<rest_time>\S+).seconds
+  /x
+
+  RACER_STATS = %i(speed fly_time rest_time)
+
   def initialize(reindeer)
     @reindeer = reindeer.each_line.map do |racer|
-      name = racer.match(/(\S+) can fly/)[1]
-      stat_parts = racer.match(/
-        (?:\S+).can.fly.
-        (?<speed>\S+).km\/s.for.
-        (?<fly_time>\S+).seconds,.but.then.must.rest.for.
-        (?<rest_time>\S+).seconds
-      /x)
+      attributes = racer.match(RACER_FORMAT)
+      stats = RACER_STATS.map{ |stat| [stat, attributes[stat].to_i] }.to_h
 
-      stats = stat_parts.names.zip(stat_parts.captures.map(&:to_i)).to_h
-      OpenStruct.new(stats.merge(name: name))
+      OpenStruct.new(stats.merge(name: attributes[:name]))
     end
   end
 
