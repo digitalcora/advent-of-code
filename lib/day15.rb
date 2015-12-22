@@ -1,7 +1,5 @@
 # --- Day 15: Science for Hungry People ---
 
-require 'ostruct'
-
 class Day15
   INGREDIENT_FORMAT = /
     (?<capacity>\S+),.*\s
