@@ -15,9 +15,26 @@ class Day16
     end.to_h
   end
 
-  def sender
+  def initial_sender
     @aunts.find do |name, things|
       things.all?{ |thing, quantity| @gift[thing] == quantity }
+    end.first
+  end
+
+  UNDERESTIMATED_THINGS = %i(cats trees)
+  OVERESTIMATED_THINGS = %i(goldfish pomeranians)
+
+  def corrected_sender
+    @aunts.find do |name, things|
+      things.all? do |thing, quantity|
+        if UNDERESTIMATED_THINGS.include?(thing)
+          quantity > @gift[thing]
+        elsif OVERESTIMATED_THINGS.include?(thing)
+          quantity < @gift[thing]
+        else
+          quantity == @gift[thing]
+        end
+      end
     end.first
   end
 end
