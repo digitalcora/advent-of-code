@@ -1,11 +1,20 @@
 # --- Day 18: Like a GIF For Your Yard ---
 
 class Day18
-  def initialize(grid)
+  def initialize(grid, stuck_corners: false)
+    @stuck_corners = stuck_corners
+
     @grid = grid.each_line.map do |line|
       line.chomp.each_char.map do |char|
         char == '#'
       end
+    end
+
+    if @stuck_corners
+      @grid[0][0] = true
+      @grid[0][-1] = true
+      @grid[-1][0] = true
+      @grid[-1][-1] = true
     end
   end
 
@@ -15,12 +24,16 @@ class Day18
     generation.times do
       grid = grid.map.with_index do |row, y|
         row.map.with_index do |cell, x|
-          live_neighbors = neighbor_values(grid, x, y).count(true)
-
-          if cell
-            live_neighbors.between?(2, 3)
+          if cell_stuck_on?(x, y)
+            true
           else
-            live_neighbors == 3
+            live_neighbors = neighbor_values(grid, x, y).count(true)
+
+            if cell
+              live_neighbors.between?(2, 3)
+            else
+              live_neighbors == 3
+            end
           end
         end
       end
@@ -42,5 +55,14 @@ class Day18
       (grid[y+1][x] if y < grid.size - 1),
       (grid[y+1][x+1] if y < grid.size - 1 && x < grid.first.size - 1)
     ]
+  end
+
+  def cell_stuck_on?(x, y)
+    if @stuck_corners
+      (x == 0 && y == 0)\
+      || (x == 0 && y == @grid.size - 1)\
+      || (x == @grid.first.size - 1 && y == 0)\
+      || (x == @grid.first.size - 1 && y == @grid.size - 1)
+    end
   end
 end
