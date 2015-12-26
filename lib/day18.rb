@@ -48,12 +48,12 @@ class Day18
     [
       (grid[y-1][x-1] if y > 0 && x > 0),
       (grid[y-1][x] if y > 0),
-      (grid[y-1][x+1] if y > 0 && x < grid.first.size - 1),
+      (grid[y-1][x+1] if y > 0),
       (grid[y][x-1] if x > 0),
-      (grid[y][x+1] if x < grid.first.size - 1),
+      (grid[y][x+1]),
       (grid[y+1][x-1] if y < grid.size - 1 && x > 0),
       (grid[y+1][x] if y < grid.size - 1),
-      (grid[y+1][x+1] if y < grid.size - 1 && x < grid.first.size - 1)
+      (grid[y+1][x+1] if y < grid.size - 1)
     ]
   end
 
@@ -62,7 +62,7 @@ class Day18
       (x == 0 && y == 0)\
       || (x == 0 && y == @grid.size - 1)\
       || (x == @grid.first.size - 1 && y == 0)\
-      || (x == @grid.first.size - 1 && y == @grid.size - 1)
+      || (x == @grid.last.size - 1 && y == @grid.size - 1)
     end
   end
 end
