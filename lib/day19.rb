@@ -14,16 +14,16 @@ class Day19
     [].tap do |molecules|
       scanner = StringScanner.new(@molecule)
 
-      @replacements.each do |(source, target)|
+      @replacements.each do |(from_sequence, to_sequence)|
         scanner.reset
-        source_pattern = Regexp.new(source)
+        source_pattern = Regexp.new(from_sequence)
 
         loop do
           scanner.scan_until(source_pattern)
 
           if scanner.matched?
             result = @molecule.dup
-            result[scanner.pre_match.size, source.size] = target
+            result[scanner.pre_match.size, from_sequence.size] = to_sequence
             molecules << result
           else
             break
