@@ -43,8 +43,8 @@ class Day19
       .reverse
 
     loop do
-      from_sequence, to_sequence = replacements.find do |(from_sequence, _)|
-        steps.last.include?(from_sequence)
+      from_sequence, to_sequence = replacements.find do |(from, _)|
+        steps.last.include?(from)
       end
 
       steps << steps.last.sub(/(.*)#{from_sequence}/, "\\1#{to_sequence}")
