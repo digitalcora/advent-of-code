@@ -1,5 +1,7 @@
 # --- Day 13: Knights of the Dinner Table ---
 
+require 'set'
+
 class Day13
   EDGE_FORMAT = /
     (?<person1>\S+).would.
