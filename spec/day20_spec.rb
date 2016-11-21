@@ -1,6 +1,6 @@
 require 'day20'
 
-RSpec.describe Day20, :focus do
+RSpec.describe Day20 do
   it 'finds the first house to get at least a given number of presents' do
     expect(Day20.new(target_presents: 150).first_house_number).to eq 8
   end
