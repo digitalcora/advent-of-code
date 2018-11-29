@@ -7,7 +7,7 @@ class Day4
     @prefix = prefix
   end
 
-  def mine_coin(difficulty:)
+  def mine_coin(difficulty: 5)
     target = '0' * difficulty
 
     (1..Float::INFINITY).find do |suffix|

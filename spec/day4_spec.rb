@@ -1,9 +1,12 @@
 require 'day4'
 
 RSpec.describe Day4 do
-  it 'mines Advent Coins with selectable difficulty' do
-    expect(Day4.new('abcdef').mine_coin(difficulty: 5)).to eq 609043
-    expect(Day4.new('pqrstuv').mine_coin(difficulty: 5)).to eq 1048970
-    expect(Day4.new('ckczppom').mine_coin(difficulty: 6)).to eq 3938038
+  it 'mines Advent Coins' do
+    expect(Day4.new('abcdef').mine_coin).to eq 609043
+    expect(Day4.new('pqrstuv').mine_coin).to eq 1048970
+  end
+
+  it 'allows specifying a difficulty' do
+    expect(Day4.new('abcdef').mine_coin(difficulty: 4)).to eq 31556
   end
 end
