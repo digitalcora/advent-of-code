@@ -24,7 +24,7 @@ class Day23
   def run!
     ip = 0
 
-    while ip >= 0 and ip < @instructions.size
+    while ip >= 0 && ip < @instructions.size
       ip += send(@instructions[ip][0], *@instructions[ip][1])
     end
   end
