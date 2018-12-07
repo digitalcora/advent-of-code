@@ -1,5 +1,3 @@
-# --- Day 12: JSAbacusFramework.io ---
-
 require 'json'
 
 class Day12

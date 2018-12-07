@@ -1,5 +1,3 @@
-# --- Day 15: Science for Hungry People ---
-
 class Day15
   INGREDIENT_FORMAT = /
     (?<capacity>\S+),.*\s

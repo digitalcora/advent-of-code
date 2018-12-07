@@ -1,5 +1,3 @@
-# --- Day 20: Infinite Elves and Infinite Houses ---
-
 class Day20
   def initialize(target_presents:, house_limit: nil, present_multiplier: 10)
     @target_presents = target_presents

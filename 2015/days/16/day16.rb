@@ -1,5 +1,3 @@
-# --- Day 16: Aunt Sue ---
-
 class Day16
   def initialize(gift:, aunts:)
     @gift = gift

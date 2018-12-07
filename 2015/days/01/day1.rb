@@ -1,5 +1,3 @@
-# --- Day 1: Not Quite Lisp ---
-
 class Day1
   def initialize(directions)
     raise 'invalid input' unless directions =~ /^[()]*$/

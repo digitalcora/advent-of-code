@@ -1,5 +1,3 @@
-# --- Day 3: Perfectly Spherical Houses in a Vacuum ---
-
 class Day3
   def initialize(directions)
     @directions = directions

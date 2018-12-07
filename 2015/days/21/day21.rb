@@ -1,5 +1,3 @@
-# --- Day 21: RPG Simulator 20XX ---
-
 class Day21
   def initialize(boss_health:, boss_damage:, boss_armor:)
     @boss = Fighter.new(boss_health, boss_damage, boss_armor)

@@ -1,5 +1,3 @@
-# --- Day 4: The Ideal Stocking Stuffer ---
-
 require 'digest'
 
 class Day4

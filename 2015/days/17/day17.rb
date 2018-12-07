@@ -1,5 +1,3 @@
-# --- Day 17: No Such Thing as Too Much ---
-
 class Day17
   def initialize(amount:, containers:)
     @amount = amount

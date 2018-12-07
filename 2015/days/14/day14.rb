@@ -1,5 +1,3 @@
-# --- Day 14: Reindeer Olympics ---
-
 require 'ostruct'
 
 class Day14

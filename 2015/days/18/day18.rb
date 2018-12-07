@@ -1,5 +1,3 @@
-# --- Day 18: Like a GIF For Your Yard ---
-
 class Day18
   def initialize(grid, stuck_corners: false)
     @stuck_corners = stuck_corners

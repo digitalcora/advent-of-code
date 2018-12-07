@@ -1,5 +1,3 @@
-# --- Day 10: Elves Look, Elves Say ---
-
 class Day10
   def initialize(first_value)
     @first_value = first_value

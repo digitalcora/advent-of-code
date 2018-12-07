@@ -1,5 +1,3 @@
-# --- Day 5: Doesn't He Have Intern-Elves For This? ---
-
 class Day5
   def initialize(strings)
     @strings = strings.lines

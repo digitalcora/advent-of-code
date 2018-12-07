@@ -1,5 +1,3 @@
-# --- Day 25: Let It Snow ---
-
 class Day25
   def initialize(initial_code)
     @initial_code = initial_code

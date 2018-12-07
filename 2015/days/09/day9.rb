@@ -1,5 +1,3 @@
-# --- Day 9: All in a Single Night ---
-
 require 'set'
 
 class Day9

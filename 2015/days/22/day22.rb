@@ -1,5 +1,3 @@
-# --- Day 22: Wizard Simulator 20XX ---
-
 class Day22
   def initialize(**stats)
     @battle = Battle.new(**stats)

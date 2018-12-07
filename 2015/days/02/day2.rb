@@ -1,5 +1,3 @@
-# --- Day 2: I Was Told There Would Be No Math ---
-
 class Day2
   def initialize(presents)
     @presents = presents.each_line.map{ |sides| sides.split('x').map(&:to_i) }

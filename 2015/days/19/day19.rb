@@ -1,5 +1,3 @@
-# --- Day 19: Medicine for Rudolph ---
-
 require 'strscan'
 
 class Day19

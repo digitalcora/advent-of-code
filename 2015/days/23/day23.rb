@@ -1,5 +1,3 @@
-# --- Day 23: Opening the Turing Lock ---
-
 class Day23
   attr_reader :registers
 

@@ -1,5 +1,3 @@
-# --- Day 11: Corporate Policy ---
-
 class Day11
   def initialize(current_password)
     @current_password = current_password

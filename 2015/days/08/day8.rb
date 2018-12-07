@@ -1,5 +1,3 @@
-# --- Day 8: Matchsticks ---
-
 require 'yaml'
 
 class Day8

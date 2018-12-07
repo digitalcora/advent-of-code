@@ -1,5 +1,3 @@
-# --- Day 24: It Hangs in the Balance ---
-
 class Day24
   def initialize(packages)
     @packages = packages
