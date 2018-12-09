@@ -25,3 +25,12 @@
 * [Day 23: Opening the Turing Lock](days/23)
 * [Day 24: It Hangs in the Balance](days/24)
 * [Day 25: Let It Snow](days/25)
+
+## Setup Notes
+
+Install a version of Ruby that matches the constraint in the `Gemfile` (or use
+`asdf install` to get the exact version I last tested with), then:
+
+1. `gem install bundler`
+2. `bundle install --binstubs`
+3. `bin/rspec`
