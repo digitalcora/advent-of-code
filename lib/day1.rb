@@ -2,6 +2,7 @@
 
 class Day1
   def initialize(directions)
+    raise 'invalid input' unless directions =~ /^[()]*$/
     @directions = directions
   end
 
@@ -10,15 +11,6 @@ class Day1
   end
 
   def basement_position
-    floor = 0
-
-    @directions.each_char.with_index do |character, index|
-      floor += 1 if character == '('
-      floor -= 1 if character == ')'
-
-      return index + 1 if floor < 0
-    end
-
-    nil
+    /^(\(\g<1>*\))*\)/.match(@directions)&.end(0)
   end
 end

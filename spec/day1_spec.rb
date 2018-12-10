@@ -15,7 +15,9 @@ RSpec.describe Day1 do
 
   it 'gives the position of the first direction that enters the basement' do
     expect(Day1.new(')').basement_position).to eq 1
+    expect(Day1.new(')()').basement_position).to eq 1
     expect(Day1.new('()())').basement_position).to eq 5
     expect(Day1.new('(').basement_position).to eq nil
+    expect(Day1.new('(())()').basement_position).to eq nil
   end
 end
