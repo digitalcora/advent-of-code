@@ -1,6 +1,6 @@
 # Advent of Code 2016
 
-* Completed days will go here!
+* [Day 1: No Time for a Taxicab](days/01)
 
 ## Setup Notes
 
