@@ -2,6 +2,7 @@
 
 * [Day 1: No Time for a Taxicab](days/01)
 * [Day 2: Bathroom Security](days/02)
+* [Day 3: Squares With Three Sides](days/03)
 
 ## Setup Notes
 
