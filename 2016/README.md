@@ -4,6 +4,7 @@
 * [Day 2: Bathroom Security](days/02)
 * [Day 3: Squares With Three Sides](days/03)
 * [Day 4: Security Through Obscurity](days/04)
+* [Day 5: How About a Nice Game of Chess?](days/05)
 
 ## Setup Notes
 
