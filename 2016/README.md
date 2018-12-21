@@ -5,6 +5,7 @@
 * [Day 3: Squares With Three Sides](days/03)
 * [Day 4: Security Through Obscurity](days/04)
 * [Day 5: How About a Nice Game of Chess?](days/05)
+* [Day 6: Signals and Noise](days/06)
 
 ## Setup Notes
 
