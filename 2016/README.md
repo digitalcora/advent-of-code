@@ -8,6 +8,7 @@
 * [Day 6: Signals and Noise](days/06)
 * [Day 7: Internet Protocol Version 7](days/07)
 * [Day 8: Two-Factor Authentication](days/08)
+* [Day 9: Explosives in Cyberspace](days/09)
 
 ## Setup Notes
 

@@ -27,7 +27,7 @@ defmodule Advent.Day8 do
   $/x
 
   defp parse_instruction(line) do
-    case Regex.run(@instruction, line) |> tl() |> Enum.reject(& &1 == "") do
+    case Regex.run(@instruction, line) |> tl() |> Enum.reject(&(&1 == "")) do
       ["rect", width, height] -> {:rect, String.to_integer(width), String.to_integer(height)}
       ["row", y, count] -> {:rotate_row, String.to_integer(y), String.to_integer(count)}
       ["column", x, count] -> {:rotate_col, String.to_integer(x), String.to_integer(count)}
@@ -42,9 +42,10 @@ defmodule Advent.Day8 do
   defp run_instruction({:rect, width, height}, display) do
     {target_rows, rest_rows} = Enum.split(display, height)
 
-    updated_rows = Enum.map(target_rows, fn row ->
-      List.duplicate(true, width) ++ Enum.drop(row, width)
-    end)
+    updated_rows =
+      Enum.map(target_rows, fn row ->
+        List.duplicate(true, width) ++ Enum.drop(row, width)
+      end)
 
     updated_rows ++ rest_rows
   end
@@ -68,7 +69,7 @@ defmodule Advent.Day8 do
   end
 
   defp count_live_pixels(display) do
-    display |> Enum.map(fn row -> Enum.count(row, & &1) end) |> Enum.sum
+    display |> Enum.map(fn row -> Enum.count(row, & &1) end) |> Enum.sum()
   end
 
   defp inspect_pixels(display) do
