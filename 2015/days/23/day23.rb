@@ -4,7 +4,7 @@ class Day23
   def initialize(instructions, registers = {a: 0, b: 0})
     @registers = registers
     @instructions = instructions.each_line.map do |line|
-      line.split(' ', 2).yield_self do |(inst, rest)|
+      line.split(' ', 2).then do |(inst, rest)|
         [
           inst.strip.to_sym,
           rest.split(',').map(&:strip).map do |arg|
