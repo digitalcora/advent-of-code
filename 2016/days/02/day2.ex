@@ -1,4 +1,6 @@
 defmodule Advent.Day2 do
+  # Describe the keypads in the puzzle. Keys are represented as `{{X, Y}, D}` where X and Y are
+  # the coordinates and D is the digit printed on the key.
   @keypads %{
     square: [
       {{-1, -1}, "1"},
@@ -28,23 +30,28 @@ defmodule Advent.Day2 do
     ]
   }
 
+  # 🌟🌟 Solve either the silver or gold star.
   def keypad_code(input, keypad_type \\ :square) do
     input |> String.split() |> find_digits(@keypads[keypad_type])
   end
 
   defp find_digits(sequences, keypad) do
     Enum.reduce(sequences, "", fn sequence, digits ->
-      digits <> next_digit(sequence, digits, keypad)
+      digits <> next_digit(sequence, String.last(digits), keypad)
     end)
   end
 
-  defp next_digit(sequence, digits, keypad) do
-    current_position = keypad |> position_of(String.last(digits))
+  # Given a line of the puzzle input, the last digit of the combination found so far (nil if no
+  # digits have been found), and the keypad type, find the next digit of the combination.
+  defp next_digit(sequence, last_digit, keypad) do
+    current_position = keypad |> position_of(last_digit)
     new_position = sequence |> String.codepoints() |> follow_directions(current_position, keypad)
 
     keypad |> digit_at(new_position)
   end
 
+  # Given starting coordinates and a list of directions, find the new coordinates after following
+  # the directions on a given keypad.
   defp follow_directions(directions, start_at, keypad) do
     Enum.reduce(directions, start_at, fn direction, position ->
       new_position = move(direction, position)

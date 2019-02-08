@@ -1,5 +1,8 @@
 defmodule Advent.Day1 do
   defmodule Input do
+    # Parse the raw input into a list of turns or single steps forward, e.g. "R2, L1" becomes
+    # [:right, :forward, :forward, :left, :forward]. This makes it straightforward to simulate the
+    # walk one step at a time and thus know when the path first crosses itself.
     def parse(instructions) do
       instructions |> String.split(", ") |> Enum.flat_map(&expand/1)
     end
@@ -15,12 +18,16 @@ defmodule Advent.Day1 do
   end
 
   defmodule Walk do
+    # Represents the current state of a simulated walk through a city grid. Keeps track of the
+    # current coordinates, current heading (which direction "forward" is), the set of coordinates
+    # that have been visited, and whether the path has ever crossed itself.
     defstruct heading: :north, location: {0, 0}, has_path_crossed: false, visited: MapSet.new()
 
     def distance_from_origin(%{location: {x, y}}) do
       abs(x) + abs(y)
     end
 
+    # Walk one step in the direction of the current heading.
     def go(%{heading: heading, location: location} = walk, :forward) do
       location = advance(location, heading)
 
@@ -30,6 +37,7 @@ defmodule Advent.Day1 do
       end
     end
 
+    # Turn the current heading 90 degrees to the left or right.
     def go(%{heading: heading} = walk, direction) when direction in [:left, :right] do
       struct!(walk, heading: turn(heading, direction))
     end
@@ -49,6 +57,7 @@ defmodule Advent.Day1 do
     defp turn(:west, :right), do: :north
   end
 
+  # 🌟 Solve the silver star.
   def distance_to_end(instructions) do
     instructions
     |> Input.parse()
@@ -56,6 +65,7 @@ defmodule Advent.Day1 do
     |> Walk.distance_from_origin()
   end
 
+  # 🌟 Solve the gold star.
   def distance_to_cross(instructions) do
     instructions
     |> Input.parse()

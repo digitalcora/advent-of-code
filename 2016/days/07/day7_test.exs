@@ -12,21 +12,21 @@ defmodule Advent.Day7Test do
 
   defp test_tls_addresses do
     """
-      abba[mnop]qrst
-      abcd[bddb]xyyx
-      aaaa[qwer]tyui
-      ioxxoj[asdfgh]zxcvbn
-      abcd[fbddbg]xyyx
-      abcd[mnop]abba[qwer]
+    abba[mnop]qrst
+    abcd[bddb]xyyx
+    aaaa[qwer]tyui
+    ioxxoj[asdfgh]zxcvbn
+    abcd[fbddbg]xyyx
+    abcd[mnop]abba[qwer]
     """
   end
 
   defp test_ssl_addresses do
     """
-      aba[bab]xyz
-      xyx[xyx]xyx
-      aaa[kek]eke
-      zazbz[bzb]cdb
+    aba[bab]xyz
+    xyx[xyx]xyx
+    aaa[kek]eke
+    zazbz[bzb]cdb
     """
   end
 end

@@ -7,6 +7,7 @@ defmodule Advent.Day11Test do
   end
 
   test "finds the fewest steps for a more complex input in a reasonable amount of time" do
+    # n.b. this uses my actual puzzle input. Spoilers!
     assert Day11.fewest_steps(test_input_complex()) == 37
   end
 

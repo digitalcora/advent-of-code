@@ -1,8 +1,11 @@
 defmodule Advent.Day3 do
+  # 🌟🌟 Solve either the silver or gold star.
   def valid_triangles(input, reading_direction \\ :horizontal) do
     input |> parse_input(reading_direction) |> Enum.count(&valid_triangle?/1)
   end
 
+  # Parse the puzzle input into a list of triangles, represented as sorted lists of side lengths.
+  # Each line of the input is read as one triangle.
   defp parse_input(input, :horizontal) do
     input
     |> String.split("\n")
@@ -11,6 +14,8 @@ defmodule Advent.Day3 do
     end)
   end
 
+  # As above, but side lengths are read top-to-bottom within each (whitespace-delimited) column.
+  # This assumes the input has exactly 3 columns of equal length.
   defp parse_input(input, :vertical) do
     numbers = String.split(input)
 
@@ -23,6 +28,7 @@ defmodule Advent.Day3 do
     end)
   end
 
+  # A triangle is valid if the sum of its two shortest sides is greater than its longest side.
   defp valid_triangle?([a, b, c]) when a + b > c, do: true
   defp valid_triangle?(_), do: false
 end
