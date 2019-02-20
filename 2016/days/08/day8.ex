@@ -64,20 +64,13 @@ defmodule Advent.Day8 do
   end
 
   # Run a `rotate column` instruction. Rotates the pixels in a column downward (with wraparound).
+  defp run_instruction({:rotate_col, x, count}, display) do
+    column = Enum.map(display, fn row -> Enum.at(row, x) end)
+    [rotated_column] = run_instruction({:rotate_row, 0, count}, [column])
 
-  defp run_instruction({:rotate_col, _x, 0}, display), do: display
-
-  defp run_instruction({:rotate_col, x, count}, [first_row | rest_rows]) do
-    # Doing a single-pass "rotate column" in a list-of-lists was enough of a pain that I just
-    # implemented it for count=1 and made it recursive. Future improvement might be to extract the
-    # column, rotate it like a row, and replace it.
-    {updated_rest_rows, last_value} =
-      Enum.map_reduce(rest_rows, Enum.at(first_row, x), fn row, last_value ->
-        {List.replace_at(row, x, last_value), Enum.at(row, x)}
-      end)
-
-    rotated_once = [List.replace_at(first_row, x, last_value) | updated_rest_rows]
-    run_instruction({:rotate_col, x, count - 1}, rotated_once)
+    display
+    |> Enum.zip(rotated_column)
+    |> Enum.map(fn {row, pixel} -> List.replace_at(row, x, pixel) end)
   end
 
   # Return the count of pixels in a display that are on.
