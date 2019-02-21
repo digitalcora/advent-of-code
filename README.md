@@ -11,7 +11,7 @@ Here are my goals for writing them:
 Event        | Language | Progress
 :----------: | :------: | :------:
 [2015](2015) | Ruby     | 100%
-[2016](2016) | Elixir   | 44%
+[2016](2016) | Elixir   | 48%
 2017         | `TBD`    | 0%
 2018         | `TBD`    | 0%
 

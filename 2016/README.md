@@ -11,6 +11,7 @@
 * [Day 9: Explosives in Cyberspace](days/09)
 * [Day 10: Balance Bots](days/10)
 * [Day 11: Radioisotope Thermoelectric Generators](days/11)
+* [Day 12: Leonardo's Monorail](days/12)
 
 ## Setup Notes
 
