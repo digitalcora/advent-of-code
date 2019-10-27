@@ -13,6 +13,7 @@
 * [Day 11: Radioisotope Thermoelectric Generators](days/11)
 * [Day 12: Leonardo's Monorail](days/12)
 * [Day 13: A Maze of Twisty Little Cubicles](days/13)
+* [Day 14: One-Time Pad](days/14)
 
 ## Setup Notes
 
