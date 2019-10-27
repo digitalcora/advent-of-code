@@ -12,6 +12,7 @@
 * [Day 10: Balance Bots](days/10)
 * [Day 11: Radioisotope Thermoelectric Generators](days/11)
 * [Day 12: Leonardo's Monorail](days/12)
+* [Day 13: A Maze of Twisty Little Cubicles](days/13)
 
 ## Setup Notes
 
