@@ -8,8 +8,8 @@ defmodule Advent.MixProject do
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: [],
-      elixirc_paths: ["days"],
-      test_paths: ["days"]
+      elixirc_paths: ["days", "lib"],
+      test_paths: ["days", "lib"]
     ]
   end
 
