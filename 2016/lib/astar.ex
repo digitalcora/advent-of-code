@@ -1,23 +1,32 @@
 defmodule Advent.AStar do
   @moduledoc "Generic A* pathfinder."
 
-  # Given a struct representing a starting node, returns the fewest number of steps required to
-  # reach a goal, or `nil` if the goal is unreachable. The struct's module is expected to define
-  # these functions:
+  # Given a struct representing a starting node, finds the shortest path to a goal (if reachable)
+  # that does not exceed an optional max number of steps, and returns the final pathfinder state.
+  # The struct's module is expected to define:
   #
   #   `h_score/1` — Estimate the number of steps to reach the goal from a given node. Must
   #                 return 0 if-and-only-if the node is at the goal.
   #   `neighbors/1` — Return a list of nodes that are one step away from a given node.
-  def fewest_steps(%{__struct__: module} = start_node) do
-    pathfind(%{
+  def pathfind(%{__struct__: module} = start_node, max_steps \\ nil) do
+    iterate(%{
       module: module,
       open: MapSet.new([start_node]),
       closed: MapSet.new(),
+      goal: nil,
+      max_steps: max_steps,
       g_scores: %{start_node => 0},
       h_scores: %{start_node => module.h_score(start_node)},
       inverse_f: %{module.h_score(start_node) => MapSet.new([start_node])}
     })
   end
+
+  # If the goal was reached, return the length of the shortest path to it.
+  def path_length(%{goal: nil}), do: nil
+  def path_length(%{goal: goal, g_scores: g_scores}), do: g_scores[goal]
+
+  # Return the count of nodes that were explored (had all neighbors discovered).
+  def count_explored(%{closed: closed}), do: MapSet.size(closed)
 
   # Pathfinder iteration. Reference for the `state` map:
   #   `module` — the module that provides H-score and neighbor functions.
@@ -27,17 +36,21 @@ defmodule Advent.AStar do
   #   `h_scores` — maps nodes to H scores (estimated distance from the node to the goal).
   #   `inverse_f` — maps F scores (G+H) to the set of *open* nodes with that score. This acts
   #                 as a priority queue for the most promising nodes to explore next.
-  defp pathfind(state) do
+  defp iterate(state) do
     current = most_promising_node(state)
 
     cond do
       is_nil(current) ->
-        # We explored all possible nodes and still didn't reach the goal.
-        nil
+        # We explored all reachable nodes and still didn't reach the goal.
+        state
 
       state.h_scores[current] == 0 ->
-        # We're at the goal, so return the number of steps taken to get here.
-        state.g_scores[current]
+        # We're at the goal! Store the goal node in the final state.
+        Map.put(state, :goal, current)
+
+      state.g_scores[current] >= state.max_steps ->
+        # Taking another step would exceed our limit; close this node without exploring it.
+        state |> close(current) |> iterate()
 
       true ->
         # We're not at the goal yet and still have open nodes to explore.
@@ -58,7 +71,7 @@ defmodule Advent.AStar do
           end
         end)
         |> close(current)
-        |> pathfind()
+        |> iterate()
     end
   end
 

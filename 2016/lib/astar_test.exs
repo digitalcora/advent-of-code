@@ -16,16 +16,26 @@ defmodule Advent.AStarTest do
     end
   end
 
-  test "finds the shortest path through a maze" do
-    start = %Node{maze: test_maze(), position: {1, 1}, goal: {5, 14}}
+  describe "path_length/1" do
+    test "finds the shortest path through a maze" do
+      start = %Node{maze: test_maze(), position: {1, 1}, goal: {5, 14}}
 
-    assert AStar.fewest_steps(start) == 41
+      assert AStar.pathfind(start) |> AStar.path_length() == 41
+    end
+
+    test "returns nil when a path cannot be found" do
+      start = %Node{maze: test_maze(), position: {1, 1}, goal: {10, 3}}
+
+      refute AStar.pathfind(start) |> AStar.path_length()
+    end
   end
 
-  test "returns nil when a path cannot be found" do
-    start = %Node{maze: test_maze(), position: {1, 1}, goal: {10, 3}}
+  describe "count_explored/1" do
+    test "counts nodes explored while trying to find a path" do
+      start = %Node{maze: test_maze(), position: {1, 1}, goal: {5, 14}}
 
-    refute AStar.fewest_steps(start)
+      assert AStar.pathfind(start, 13) |> AStar.count_explored() == 18
+    end
   end
 
   defp test_maze do

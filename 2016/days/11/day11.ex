@@ -124,6 +124,6 @@ defmodule Advent.Day11 do
 
   # 🌟🌟 Solve either the silver or gold star.
   def fewest_steps(input) do
-    input |> Input.parse() |> AStar.fewest_steps()
+    input |> Input.parse() |> AStar.pathfind() |> AStar.path_length()
   end
 end

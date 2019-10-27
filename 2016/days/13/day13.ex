@@ -35,6 +35,13 @@ defmodule Advent.Day13 do
 
   # 🌟 Solve the silver star.
   def fewest_steps({_, _} = goal, seed) do
-    %Node{seed: seed, goal: goal} |> AStar.fewest_steps()
+    %Node{seed: seed, goal: goal} |> AStar.pathfind() |> AStar.path_length()
+  end
+
+  # 🌟 Solve the gold star.
+  def reachable_locations(seed, limit) do
+    # Exact goal doesn't matter as long as it's guaranteed to be more than `limit` steps away.
+    # This forces the pathfinder to explore every node that can be reached within `limit` steps.
+    %Node{seed: seed, goal: {limit, limit}} |> AStar.pathfind(limit) |> AStar.count_explored()
   end
 end
