@@ -8,7 +8,7 @@ defmodule Advent.Day6 do
   # broken, and no ties occur in the examples or puzzle input, so this is left undefined.
 
   defp hidden_letter(string, :most_common) do
-    string |> letter_frequencies() |> Enum.sort_by(&elem(&1, 1), &>=/2) |> hd() |> elem(0)
+    string |> letter_frequencies() |> Enum.sort_by(&elem(&1, 1), :desc) |> hd() |> elem(0)
   end
 
   defp hidden_letter(string, :least_common) do
