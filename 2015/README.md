@@ -31,5 +31,6 @@
 Install a version of Ruby that matches the constraint in the `Gemfile` (or use
 `asdf install` to get the exact version I last tested with), then:
 
-1. `bundle install --binstubs`
-2. `bin/rspec`
+1. `bundle install`
+2. `bundle binstubs rspec-core`
+3. `bin/rspec`
