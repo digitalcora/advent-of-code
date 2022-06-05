@@ -7,18 +7,16 @@ defmodule Advent.Day6 do
   # Find the most or least common character in a string. The puzzle doesn't specify how ties are
   # broken, and no ties occur in the examples or puzzle input, so this is left undefined.
 
-  defp hidden_letter(string, :most_common) do
-    string |> letter_frequencies() |> Enum.sort_by(&elem(&1, 1), :desc) |> hd() |> elem(0)
-  end
+  defp hidden_letter(string, :most_common), do: hidden_letter(string, :desc)
+  defp hidden_letter(string, :least_common), do: hidden_letter(string, :asc)
 
-  defp hidden_letter(string, :least_common) do
-    string |> letter_frequencies() |> Enum.sort_by(&elem(&1, 1)) |> hd() |> elem(0)
-  end
-
-  defp letter_frequencies(string) do
+  defp hidden_letter(string, freq_sort) do
     string
     |> String.codepoints()
-    |> Enum.reduce(%{}, fn char, freqs -> Map.update(freqs, char, 1, &(&1 + 1)) end)
+    |> Enum.frequencies()
+    |> Enum.sort_by(&elem(&1, 1), freq_sort)
+    |> hd()
+    |> elem(0)
   end
 
   # Taking the input as a grid of characters, return the strings formed by reading each column of

@@ -58,9 +58,7 @@ defmodule Advent.Day8 do
 
   # Run a `rotate row` instruction. Rotates the pixels in a row rightward (with wraparound).
   defp run_instruction({:rotate_row, y, count}, display) do
-    List.update_at(display, y, fn row ->
-      with {pre, post} = Enum.split(row, -count), do: post ++ pre
-    end)
+    List.update_at(display, y, &Enum.slide(&1, -count..-1, 0))
   end
 
   # Run a `rotate column` instruction. Rotates the pixels in a column downward (with wraparound).

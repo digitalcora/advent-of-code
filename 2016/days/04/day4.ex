@@ -39,7 +39,7 @@ defmodule Advent.Day4 do
     string
     |> String.replace("-", "")
     |> String.codepoints()
-    |> Enum.reduce(%{}, fn char, freqs -> Map.update(freqs, char, 1, &(&1 + 1)) end)
+    |> Enum.frequencies()
     |> Enum.sort_by(&elem(&1, 1), :desc)
     |> Enum.slice(0..4)
     |> Enum.map(&elem(&1, 0))
