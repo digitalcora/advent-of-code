@@ -10,5 +10,7 @@ defmodule Advent.Day14Test do
 
   test "find the index using a specified number of rounds for hashing" do
     assert Day14.key_index("abc", 1, 2017) == 10
+    # Impractically slow to include in the test suite by default (run with `--trace`)
+    # assert Day14.key_index("abc", 64, 2017) == 22551
   end
 end

@@ -1,4 +1,5 @@
 defmodule Advent.Day14 do
+  # 🌟🌟 Solve either the silver or gold star.
   def key_index(salt, key_number, rounds \\ 1) do
     cache = :ets.new(:hashes, [:private, :set])
 
@@ -19,6 +20,7 @@ defmodule Advent.Day14 do
     |> Enum.at(key_number - 1)
   end
 
+  # MD5 a salt+index, using an ETS-based cache to avoid computing the same hash more than once.
   defp hash(salt, index, cache, rounds) do
     case :ets.lookup(cache, index) do
       [{_, hash}] ->
