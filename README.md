@@ -5,13 +5,13 @@ Here are my goals for writing them:
 
 1. Use a different language for each event
 2. Use only the language's standard library
-3. Keep code idiomatic, modular, and testable
-4. Include a reasonable level of test coverage
+3. Write idiomatic, modular, testable code
+4. Include all examples as automated tests
 
 Event        | Language | Progress
 :----------: | :------: | :------:
 [2015](2015) | Ruby     | 100%
-[2016](2016) | Elixir   | 48%
+[2016](2016) | Elixir   | 60%
 
 ## Setup Notes
 
