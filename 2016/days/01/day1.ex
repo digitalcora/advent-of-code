@@ -23,23 +23,25 @@ defmodule Advent.Day1 do
     # that have been visited, and whether the path has ever crossed itself.
     defstruct heading: :north, location: {0, 0}, has_path_crossed: false, visited: MapSet.new()
 
-    def distance_from_origin(%{location: {x, y}}) do
+    def distance_from_origin(%__MODULE__{location: {x, y}}) do
       abs(x) + abs(y)
     end
 
     # Walk one step in the direction of the current heading.
-    def go(%{heading: heading, location: location} = walk, :forward) do
-      location = advance(location, heading)
+    def go(%__MODULE__{} = walk, :forward) do
+      new_location = advance(walk.location, walk.heading)
 
-      case location in walk.visited do
-        true -> struct!(walk, location: location, has_path_crossed: true)
-        false -> struct!(walk, location: location, visited: MapSet.put(walk.visited, location))
-      end
+      %__MODULE__{
+        walk
+        | location: new_location,
+          has_path_crossed: walk.has_path_crossed or new_location in walk.visited,
+          visited: MapSet.put(walk.visited, new_location)
+      }
     end
 
     # Turn the current heading 90 degrees to the left or right.
-    def go(%{heading: heading} = walk, direction) when direction in [:left, :right] do
-      struct!(walk, heading: turn(heading, direction))
+    def go(%__MODULE__{heading: heading} = walk, direction) when direction in [:left, :right] do
+      %__MODULE__{walk | heading: turn(heading, direction)}
     end
 
     defp advance({x, y}, :north), do: {x, y - 1}

@@ -2,7 +2,7 @@ defmodule Advent.Day4 do
   defmodule Room do
     # Represents an entry in the list of rooms from the puzzle input.
     @enforce_keys [:name, :sector, :checksum]
-    defstruct name: nil, sector: nil, checksum: nil
+    defstruct @enforce_keys
   end
 
   # 🌟 Solve the silver star.
@@ -31,8 +31,8 @@ defmodule Advent.Day4 do
 
   # Room entries are only "real" if their checksum is the five most common letters in their name
   # (ignoring dashes), with ties broken by alphabetical order.
-  defp valid_room?(room) do
-    room.checksum == top_five_letters(room.name)
+  defp valid_room?(%Room{checksum: checksum, name: name}) do
+    checksum == top_five_letters(name)
   end
 
   defp top_five_letters(string) do
@@ -47,8 +47,8 @@ defmodule Advent.Day4 do
   end
 
   # Find whether a room's decrypted name contains a given string.
-  defp name_contains?(room, text) do
-    room.name |> decrypt_name(room.sector) |> String.contains?(text)
+  defp name_contains?(%Room{name: name, sector: sector}, text) do
+    name |> decrypt_name(sector) |> String.contains?(text)
   end
 
   # Room names are "decrypted" by rotating each of their letters forward through the alphabet

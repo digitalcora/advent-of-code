@@ -16,7 +16,7 @@ defmodule Advent.Day13 do
       [{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}]
       |> Enum.filter(fn {x, y} -> x >= 0 and y >= 0 end)
       |> Enum.filter(&is_open(&1, seed))
-      |> Enum.map(fn position -> struct!(node, position: position) end)
+      |> Enum.map(fn position -> %__MODULE__{node | position: position} end)
     end
 
     # Determine whether a given position in the maze is open (does not contain a wall).
