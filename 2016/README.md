@@ -15,6 +15,7 @@
 * [Day 13: A Maze of Twisty Little Cubicles](days/13)
 * [Day 14: One-Time Pad](days/14)
 * [Day 15: Timing is Everything](days/15)
+* [Day 16: Dragon Checksum](days/16)
 
 ## Setup Notes
 
