@@ -1,5 +1,5 @@
 defmodule Advent.Day8Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day8
 
   test "determines how many pixels are lit after a set of instructions is run" do

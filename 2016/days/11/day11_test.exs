@@ -1,5 +1,5 @@
 defmodule Advent.Day11Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day11
 
   test "finds the fewest elevator steps required to bring all objects to the top floor" do

@@ -1,5 +1,5 @@
 defmodule Advent.Day18Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day18
 
   test "returns a count of safe tiles given the contents of the first row" do

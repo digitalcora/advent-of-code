@@ -1,5 +1,5 @@
 defmodule Advent.Day9Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day9
 
   test "finds the original size of data packed in an experimental format" do

@@ -1,5 +1,5 @@
 defmodule Advent.Day1Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day1
 
   test "finds the shortest taxicab distance to the end of the path" do

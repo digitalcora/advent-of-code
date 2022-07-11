@@ -1,5 +1,5 @@
 defmodule Advent.Day2Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day2
 
   test "finds the keypad code by following the instructions" do

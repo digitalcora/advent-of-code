@@ -24,3 +24,6 @@
 Install a version of Elixir that matches the constraint in `mix.exs` (or use
 `asdf install` to get the exact versions of Elixir and Erlang/OTP I last tested
 with), then run `mix test`.
+
+Some CPU-intensive tests are not run by default. Use `mix test --include slow`
+to include them, though note this can take several minutes to complete.

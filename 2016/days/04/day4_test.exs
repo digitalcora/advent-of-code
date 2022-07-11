@@ -1,5 +1,5 @@
 defmodule Advent.Day4Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day4
 
   test "sums the sector IDs of all room entries that have a valid checksum" do

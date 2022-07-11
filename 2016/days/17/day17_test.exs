@@ -1,5 +1,5 @@
 defmodule Advent.Day17Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day17
 
   test "finds the shortest path to the vault given an initial passcode" do

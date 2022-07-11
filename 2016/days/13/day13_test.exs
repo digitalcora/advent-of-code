@@ -1,5 +1,5 @@
 defmodule Advent.Day13Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day13
 
   test "finds the fewest steps required to escape the cubicle maze" do

@@ -1,5 +1,5 @@
 defmodule Advent.Day12Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day12
 
   test "returns the value in register `a` after executing an Assembunny program" do

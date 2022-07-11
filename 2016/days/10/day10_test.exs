@@ -1,5 +1,5 @@
 defmodule Advent.Day10Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day10
 
   test "finds the bot responsible for comparing two specific values" do

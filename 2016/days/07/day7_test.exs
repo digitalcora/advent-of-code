@@ -1,5 +1,5 @@
 defmodule Advent.Day7Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day7
 
   test "determines how many addresses support Transport-Layer Snooping" do

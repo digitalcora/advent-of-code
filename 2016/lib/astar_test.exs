@@ -1,5 +1,5 @@
 defmodule Advent.AStarTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.AStar
 
   defmodule Node do

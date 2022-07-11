@@ -1,5 +1,5 @@
 defmodule Advent.Day3Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day3
 
   test "finds how many sets of 3 side lengths are valid triangles" do

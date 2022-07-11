@@ -1,5 +1,5 @@
 defmodule Advent.Day6Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day6
 
   test "decodes a message hidden in the most common letter of each column" do

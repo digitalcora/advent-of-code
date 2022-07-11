@@ -1,5 +1,5 @@
 defmodule Advent.Day15Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Advent.Day15
 
   test "finds the earliest time when a dropped capsule will make it through the sculpture" do
