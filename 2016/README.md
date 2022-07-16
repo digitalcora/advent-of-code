@@ -18,6 +18,7 @@
 * [Day 16: Dragon Checksum](days/16)
 * [Day 17: Two Steps Forward](days/17)
 * [Day 18: Like a Rogue](days/18)
+* [Day 19: An Elephant Named Joseph](days/19)
 
 ## Setup Notes
 
