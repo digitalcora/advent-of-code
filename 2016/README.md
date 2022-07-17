@@ -19,6 +19,7 @@
 * [Day 17: Two Steps Forward](days/17)
 * [Day 18: Like a Rogue](days/18)
 * [Day 19: An Elephant Named Joseph](days/19)
+* [Day 20: Firewall Rules](days/20)
 
 ## Setup Notes
 
