@@ -1,5 +1,16 @@
 # Advent of Code 2016
 
+🚧 These solutions are **in progress**!
+
+### Setup
+
+1. `mix test`
+
+Some CPU-intensive tests are not run by default. Use `mix test --include slow`
+to include them, though note this can take several minutes to complete.
+
+### Puzzles
+
 * [Day 1: No Time for a Taxicab](days/01)
 * [Day 2: Bathroom Security](days/02)
 * [Day 3: Squares With Three Sides](days/03)
@@ -20,12 +31,3 @@
 * [Day 18: Like a Rogue](days/18)
 * [Day 19: An Elephant Named Joseph](days/19)
 * [Day 20: Firewall Rules](days/20)
-
-## Setup Notes
-
-Install a version of Elixir that matches the constraint in `mix.exs` (or use
-`asdf install` to get the exact versions of Elixir and Erlang/OTP I last tested
-with), then run `mix test`.
-
-Some CPU-intensive tests are not run by default. Use `mix test --include slow`
-to include them, though note this can take several minutes to complete.

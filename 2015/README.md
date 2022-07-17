@@ -1,5 +1,15 @@
 # Advent of Code 2015
 
+🏁 These solutions are **complete** as of `2018-12-10`.
+
+### Setup
+
+1. `bundle install`
+2. `bundle binstubs rspec-core`
+3. `bin/rspec`
+
+### Puzzles
+
 * [Day 1: Not Quite Lisp](days/01)
 * [Day 2: I Was Told There Would Be No Math](days/02)
 * [Day 3: Perfectly Spherical Houses in a Vacuum](days/03)
@@ -25,12 +35,3 @@
 * [Day 23: Opening the Turing Lock](days/23)
 * [Day 24: It Hangs in the Balance](days/24)
 * [Day 25: Let It Snow](days/25)
-
-## Setup Notes
-
-Install a version of Ruby that matches the constraint in the `Gemfile` (or use
-`asdf install` to get the exact version I last tested with), then:
-
-1. `bundle install`
-2. `bundle binstubs rspec-core`
-3. `bin/rspec`
