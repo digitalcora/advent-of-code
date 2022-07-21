@@ -2,4 +2,4 @@
 
 [day21]: https://adventofcode.com/2016/day/21
 
-In which charlists return for an encore, and the second star is a devious one.
+In which charlists are back for an encore, and star #2 provides a neat twist.

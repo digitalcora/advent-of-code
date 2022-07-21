@@ -6,6 +6,10 @@ defmodule Advent.Day21Test do
     assert Day21.scramble("abcde", example_rules()) == "decab"
   end
 
+  test "unscrambles a password using the given rules" do
+    assert Day21.unscramble("decab", example_rules()) == "abcde"
+  end
+
   defp example_rules do
     """
     swap position 4 with position 0
