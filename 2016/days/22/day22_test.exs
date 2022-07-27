@@ -3,22 +3,52 @@ defmodule Advent.Day22Test do
   alias Advent.Day22
 
   test "determines the count of viable pairs of nodes" do
-    assert Day22.viable_pairs_count(example_input()) == 7
+    assert Day22.viable_pairs(example_input()) == 43
   end
 
+  test "finds the fewest steps to move the target data to the upper-left corner" do
+    assert Day22.fewest_moves(example_input()) == 39
+  end
+
+  # Build a puzzle input from an ASCII diagram using the same conventions as the example for the
+  # second star.
   defp example_input do
     """
-    root@ebhq-gridcenter# df -h
-    Filesystem            Size  Used  Avail  Use%
-    /dev/grid/node-x0-y0   10T    8T     2T   80%
-    /dev/grid/node-x0-y1   11T    6T     5T   54%
-    /dev/grid/node-x0-y2   32T   28T     4T   87%
-    /dev/grid/node-x1-y0    9T    7T     2T   77%
-    /dev/grid/node-x1-y1    8T    0T     8T    0%
-    /dev/grid/node-x1-y2   11T    7T     4T   63%
-    /dev/grid/node-x2-y0   10T    6T     4T   60%
-    /dev/grid/node-x2-y1    9T    8T     1T   88%
-    /dev/grid/node-x2-y2    9T    6T     3T   66%
+    .......
+    .......
+    .......
+    ..#####
+    .......
+    ....._.
+    .......
     """
+    |> String.split("\n", trim: true)
+    |> Enum.map(&String.codepoints/1)
+    |> Enum.with_index(fn row, y -> Enum.with_index(row, &generate_node(&1, &2, y)) end)
+    |> List.flatten()
+    |> Enum.join("\n")
+    |> then(fn input ->
+      """
+      root@ebhq-gridcenter# df -h
+      Filesystem            Size  Used  Avail  Use%
+      """ <> input
+    end)
+  end
+
+  defp generate_node(ascii, x, y) do
+    {size, used} =
+      case ascii do
+        "." -> {8 + :rand.uniform(3), 5 + :rand.uniform(3)}
+        "#" -> {30 + :rand.uniform(3), 26 + :rand.uniform(3)}
+        "_" -> {12, 0}
+      end
+
+    ~w(
+      /dev/grid/node-x#{x}-y#{y}
+      #{size}T
+      #{used}T
+      #{size - used}T
+      #{round(used / size * 100)}
+    ) |> Enum.join("    ")
   end
 end
