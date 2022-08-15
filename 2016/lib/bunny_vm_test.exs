@@ -61,4 +61,29 @@ defmodule Advent.BunnyVMTest do
       assert VM.new("dec a\njnz a 2\ninc a") |> VM.run() |> VM.get(:a) == -1
     end
   end
+
+  describe "TGL" do
+    test "toggles INC to DEC and all other one-argument instructions to INC" do
+      assert VM.new("tgl 1\ninc a") |> VM.run() |> VM.get(:a) == -1
+      assert VM.new("tgl 1\ndec a") |> VM.run() |> VM.get(:a) == 1
+      assert VM.new("tgl 1\ntgl b") |> VM.run() |> VM.get(:b) == 1
+    end
+
+    test "toggles JNZ to CPY and all other two-argument instructions to JNZ" do
+      # becomes "cpy 5 d"
+      assert VM.new("tgl 1\njnz 5 d") |> VM.run() |> VM.get(:d) == 5
+
+      # becomes "jnz 1 a"
+      assert VM.new("tgl 1\ncpy 1 a\ncpy 0 b")
+             |> VM.set(:a, 2)
+             |> VM.set(:b, 1)
+             |> VM.run()
+             |> VM.get(:b) == 1
+    end
+
+    test "nonsensical instructions produced by a toggle are ignored" do
+      # becomes "cpy 1 2"
+      assert VM.new("tgl 1\njnz 1 2\ncpy 1 a") |> VM.run() |> VM.get(:a) == 1
+    end
+  end
 end
