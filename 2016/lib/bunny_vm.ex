@@ -1,24 +1,57 @@
 defmodule Advent.BunnyVM do
   @moduledoc "Emulator for devices that run 'assembunny' code."
 
-  defstruct code: {}, ip: 0, a: 0, b: 0, c: 0, d: 0
+  # `code` is the original program in a parsed tuple-based form, e.g. `{:cpy, 0, :a}`.
+  # The instruction pointer `ip` holds the index in the `code` of the next instruction.
+  #
+  # `patches` is a mechanism for layering optimizations over the original code while keeping it
+  # intact (as some instructions modify the code). It maps `ip` values to lists of instructions
+  # that should be executed *instead of* the corresponding instruction.
+  defstruct code: {}, ip: 0, patches: %{}, a: 0, b: 0, c: 0, d: 0
 
   @doc "Initialize a VM from puzzle input."
   def new(input) do
-    %__MODULE__{code: parse_code(input)}
+    %__MODULE__{code: parse_code(input)} |> optimize()
   end
 
+  @doc "Get a register value."
   def get(%__MODULE__{} = vm, register) when register in ~w(a b c d)a do
     get_in(vm, [Access.key!(register)])
   end
 
+  @doc "Set a register value."
   def set(%__MODULE__{} = vm, register, value) when register in ~w(a b c d)a do
     put_in(vm, [Access.key!(register)], value)
   end
 
   @doc "Run the VM until it halts (via execution leaving the bounds of the program)."
   def run(%__MODULE__{code: code, ip: ip} = vm) when ip < 0 or ip >= tuple_size(code), do: vm
-  def run(%__MODULE__{code: code, ip: ip} = vm), do: vm |> execute(elem(code, ip)) |> run()
+  def run(vm), do: vm |> step() |> run()
+
+  @doc """
+  Run the VM in debug mode. Requires a list of breakpoints (line numbers), or `:all` to break on
+  every line. Before executing a line with a breakpoint, the VM state is dumped to stdout and an
+  input is awaited on stdin before continuing. Works best with small programs, as the entire code
+  is included in the dump.
+
+  Key:
+    `!` indicates a breakpoint (not shown in `:all` mode)
+    `>` is the instruction about to be executed
+    `*` is a patched instruction (patches are displayed when they are about to be executed)
+  """
+  def debug(%__MODULE__{code: code, ip: ip} = vm, _breakpoints)
+      when ip < 0 or ip >= tuple_size(code),
+      do: vm
+
+  def debug(vm, breakpoints), do: vm |> dump_await(breakpoints) |> step() |> debug(breakpoints)
+
+  # Run a single instruction. If it is patched, all instructions in the patch are run at once.
+  defp step(%__MODULE__{code: code, ip: ip, patches: patches} = vm) do
+    case Map.get(patches, ip) do
+      nil -> vm |> execute(elem(code, ip))
+      ops -> ops |> Enum.reduce(vm, &execute(&2, &1))
+    end
+  end
 
   # Move the instruction pointer to a new relative location.
   defp advance_ip(%__MODULE__{ip: ip} = vm, count \\ 1), do: %__MODULE__{vm | ip: ip + count}
@@ -49,8 +82,46 @@ defmodule Advent.BunnyVM do
   defp execute(%__MODULE__{ip: ip} = vm, {:tgl, dest}),
     do: vm |> toggle(ip + indirect(vm, dest)) |> advance_ip()
 
+  # MUL: multiply `src1` by `src2` and add the result to `dest`. All arguments must be registers.
+  defp execute(vm, {:mul, src1, src2, dest})
+       when is_atom(src1) and is_atom(src2) and is_atom(dest),
+       do: vm |> update(dest, &(&1 + get(vm, src1) * get(vm, src2))) |> advance_ip()
+
+  # NOP: do nothing. Added by optimization patches to skip over instructions.
+  defp execute(vm, {:nop}), do: advance_ip(vm)
+
   defp indirect(vm, register) when is_atom(register), do: get(vm, register)
   defp indirect(_vm, constant) when is_integer(constant), do: constant
+
+  # Populate `patches` with any optimizations we can find in the `code`.
+  defp optimize(%__MODULE__{code: code} = vm) do
+    patches =
+      code
+      |> Tuple.to_list()
+      |> Stream.chunk_every(6, 1)
+      |> Stream.with_index()
+      |> Enum.reduce(%{}, &add_patch/2)
+
+    %{vm | patches: patches}
+  end
+
+  # Optimize a common pattern used to multiply two numbers and add the result to a third.
+  defp add_patch(
+         {[{:cpy, src, b}, {:inc, a}, {:dec, b}, {:jnz, b, -2}, {:dec, c}, {:jnz, c, -5}], line},
+         patches
+       )
+       when src != a and src != b and src != c and a != b and b != c and a != c do
+    Map.put(patches, line, [
+      {:cpy, src, b},
+      {:mul, b, c, a},
+      {:cpy, 0, b},
+      {:cpy, 0, c},
+      {:nop},
+      {:nop}
+    ])
+  end
+
+  defp add_patch(_, patches), do: patches
 
   # Toggling a location outside the program has no effect.
   defp toggle(%__MODULE__{code: code} = vm, index) when index < 0 or index >= tuple_size(code),
@@ -65,7 +136,9 @@ defmodule Advent.BunnyVM do
         {_, src, dest} -> {:jnz, src, dest}
       end
 
+    # Re-optimize the program since this may now result in different patches.
     %{vm | code: code |> Tuple.delete_at(index) |> Tuple.insert_at(index, new_instruction)}
+    |> optimize()
   end
 
   defp update(%__MODULE__{} = vm, register, func) when register in ~w(a b c d)a do
@@ -91,5 +164,40 @@ defmodule Advent.BunnyVM do
       end
     end)
     |> List.to_tuple()
+  end
+
+  # Dump a human-readable form of the VM state to stdout and await an input on stdin.
+  defp dump_await(
+         %__MODULE__{code: code, ip: ip, patches: patches, a: a, b: b, c: c, d: d} = vm,
+         breakpoints
+       ) do
+    if breakpoints == :all or ip in breakpoints do
+      IO.puts("")
+
+      code
+      |> Tuple.to_list()
+      |> Stream.with_index()
+      |> Enum.each(fn {instruction, index} ->
+        if is_list(breakpoints) and index in breakpoints, do: IO.write("!"), else: IO.write(" ")
+        if index == ip, do: IO.write(">"), else: IO.write(" ")
+        if Map.has_key?(patches, index), do: IO.write("*"), else: IO.write(" ")
+        index |> to_string() |> String.pad_leading(2) |> IO.write()
+        IO.write(" ")
+        instruction |> Tuple.to_list() |> Enum.map(&to_string/1) |> Enum.join(" ") |> IO.puts()
+      end)
+
+      IO.puts("")
+      IO.puts("A=#{a} B=#{b} C=#{c} D=#{d}")
+
+      if Map.has_key?(patches, ip) do
+        IO.puts("")
+        IO.puts("PATCH")
+        Enum.each(Map.get(patches, ip), &IO.puts("  #{inspect(&1)}"))
+      end
+
+      IO.gets("")
+    end
+
+    vm
   end
 end

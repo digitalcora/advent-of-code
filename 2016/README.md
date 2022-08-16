@@ -33,3 +33,4 @@ to include them, though note this can take several minutes to complete.
 * [Day 20: Firewall Rules](days/20)
 * [Day 21: Scrambled Letters and Hash](days/21)
 * [Day 22: Grid Computing](days/22)
+* [Day 23: Safe Cracking](days/23)

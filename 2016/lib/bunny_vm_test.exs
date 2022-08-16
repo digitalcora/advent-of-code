@@ -26,6 +26,22 @@ defmodule Advent.BunnyVMTest do
 
       assert vm |> VM.set(:a, 21) |> VM.run() |> VM.get(:b) == 42
     end
+
+    test "optimizes a specific pattern for multiplication" do
+      # This would take much longer than the default test timeout if not for the optimization.
+      vm =
+        VM.new("""
+          cpy 12345 c
+          cpy 67890 b
+          inc a
+          dec b
+          jnz b -2
+          dec c
+          jnz c -5
+        """)
+
+      assert vm |> VM.run() |> VM.get(:a) == 838_102_050
+    end
   end
 
   describe "CPY" do
