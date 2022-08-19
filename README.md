@@ -5,7 +5,8 @@ These are my solutions to [Advent of Code](https://adventofcode.com/about)!
 Event            | Language | Status
 :--------------: | :------: | :----:
 [**2015**](2015) | [Ruby]   | 🏁
-[**2016**](2016) | [Elixir] | 🚧
+[**2016**](2016) | [Elixir] | 🏁
+ **2017**        |  TBD     | 💭
 
 [Ruby]: https://www.ruby-lang.org/
 [Elixir]: https://elixir-lang.org/

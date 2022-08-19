@@ -35,3 +35,4 @@ to include them, though note this can take several minutes to complete.
 * [Day 22: Grid Computing](days/22)
 * [Day 23: Safe Cracking](days/23)
 * [Day 24: Air Duct Spelunking](days/24)
+* [Day 25: Clock Signal](days/25)

@@ -3,11 +3,12 @@ defmodule Advent.BunnyVM do
 
   # `code` is the original program in a parsed tuple-based form, e.g. `{:cpy, 0, :a}`.
   # The instruction pointer `ip` holds the index in the `code` of the next instruction.
+  # `out` is a record of output values, most recent first.
   #
   # `patches` is a mechanism for layering optimizations over the original code while keeping it
   # intact (as some instructions modify the code). It maps `ip` values to lists of instructions
   # that should be executed *instead of* the corresponding instruction.
-  defstruct code: {}, ip: 0, patches: %{}, a: 0, b: 0, c: 0, d: 0
+  defstruct code: {}, ip: 0, patches: %{}, a: 0, b: 0, c: 0, d: 0, out: []
 
   @doc "Initialize a VM from puzzle input."
   def new(input) do
@@ -27,6 +28,20 @@ defmodule Advent.BunnyVM do
   @doc "Run the VM until it halts (via execution leaving the bounds of the program)."
   def run(%__MODULE__{code: code, ip: ip} = vm) when ip < 0 or ip >= tuple_size(code), do: vm
   def run(vm), do: vm |> step() |> run()
+
+  @doc "Run the VM until the program outputs a new value, or halts."
+  def out_step(%__MODULE__{code: code, ip: ip} = vm) when ip < 0 or ip >= tuple_size(code), do: vm
+
+  def out_step(%__MODULE__{out: out} = vm) do
+    %{out: new_out} = new_vm = step(vm)
+    if(out == new_out, do: out_step(new_vm), else: new_vm)
+  end
+
+  @doc "Get all values output by the program, most recent first."
+  def output(%__MODULE__{out: out}), do: out
+
+  @doc "Return a copy of the VM without the record of past outputs, i.e. just the machine state."
+  def state(%__MODULE__{} = vm), do: %{vm | out: []}
 
   @doc """
   Run the VM in debug mode. Requires a list of breakpoints (line numbers), or `:all` to break on
@@ -81,6 +96,10 @@ defmodule Advent.BunnyVM do
   # TGL: mutate the instruction `dest` instructions away.
   defp execute(%__MODULE__{ip: ip} = vm, {:tgl, dest}),
     do: vm |> toggle(ip + indirect(vm, dest)) |> advance_ip()
+
+  # OUT: add a value to the output tape.
+  defp execute(%__MODULE__{out: out} = vm, {:out, src}),
+    do: %{vm | out: [indirect(vm, src) | out]} |> advance_ip()
 
   # MUL: multiply `src1` by `src2` and add the result to `dest`. All arguments must be registers.
   defp execute(vm, {:mul, src1, src2, dest})

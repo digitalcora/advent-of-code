@@ -12,7 +12,7 @@ defmodule Advent.BunnyVMTest do
     end
   end
 
-  describe "run/0" do
+  describe "run/1" do
     test "runs the program until it halts" do
       # Simple program that doubles A and stores the result in B, using C as scratch.
       vm =
@@ -41,6 +41,24 @@ defmodule Advent.BunnyVMTest do
         """)
 
       assert vm |> VM.run() |> VM.get(:a) == 838_102_050
+    end
+  end
+
+  describe "out_step/1" do
+    test "runs the program until it outputs a value or halts" do
+      vm =
+        VM.new("""
+          cpy 1 a
+          inc a
+          out a
+          cpy a b
+          inc b
+          out b
+        """)
+
+      assert vm |> VM.out_step() |> VM.output() == [2]
+      assert vm |> VM.out_step() |> VM.out_step() |> VM.output() == [3, 2]
+      assert vm |> VM.out_step() |> VM.out_step() |> VM.out_step() |> VM.output() == [3, 2]
     end
   end
 
@@ -100,6 +118,12 @@ defmodule Advent.BunnyVMTest do
     test "nonsensical instructions produced by a toggle are ignored" do
       # becomes "cpy 1 2"
       assert VM.new("tgl 1\njnz 1 2\ncpy 1 a") |> VM.run() |> VM.get(:a) == 1
+    end
+  end
+
+  describe "OUT" do
+    test "adds a value to the output" do
+      assert VM.new("out 1\nout 2\nout a") |> VM.run() |> VM.output() == [0, 2, 1]
     end
   end
 end
