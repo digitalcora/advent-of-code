@@ -5,10 +5,15 @@ defmodule Advent.BunnyVM do
   # The instruction pointer `ip` holds the index in the `code` of the next instruction.
   # `out` is a record of output values, most recent first.
   #
-  # `patches` is a mechanism for layering optimizations over the original code while keeping it
-  # intact (as some instructions modify the code). It maps `ip` values to lists of instructions
-  # that should be executed *instead of* the corresponding instruction.
+  # `patches` is a mechanism for applying "compiler optimizations", while retaining the original
+  # code to support self-modifying programs. It maps indices in `code` to a list of instructions
+  # that should be executed *instead of* the corresponding one. Instructions within the patch
+  # advance or modify `ip` as normal, so execution of the original code may not resume at the
+  # instruction immediately following the patched one.
   defstruct code: {}, ip: 0, patches: %{}, a: 0, b: 0, c: 0, d: 0, out: []
+
+  # The VM halts when execution leaves the bounds of the program.
+  defguard halted?(vm) when vm.ip < 0 or vm.ip >= tuple_size(vm.code)
 
   @doc "Initialize a VM from puzzle input."
   def new(input) do
@@ -25,12 +30,12 @@ defmodule Advent.BunnyVM do
     put_in(vm, [Access.key!(register)], value)
   end
 
-  @doc "Run the VM until it halts (via execution leaving the bounds of the program)."
-  def run(%__MODULE__{code: code, ip: ip} = vm) when ip < 0 or ip >= tuple_size(code), do: vm
+  @doc "Run the VM until it halts."
+  def run(%__MODULE__{} = vm) when halted?(vm), do: vm
   def run(vm), do: vm |> step() |> run()
 
   @doc "Run the VM until the program outputs a new value, or halts."
-  def out_step(%__MODULE__{code: code, ip: ip} = vm) when ip < 0 or ip >= tuple_size(code), do: vm
+  def out_step(%__MODULE__{} = vm) when halted?(vm), do: vm
 
   def out_step(%__MODULE__{out: out} = vm) do
     %{out: new_out} = new_vm = step(vm)
@@ -54,13 +59,10 @@ defmodule Advent.BunnyVM do
     `>` is the instruction about to be executed
     `*` is a patched instruction (patches are displayed when they are about to be executed)
   """
-  def debug(%__MODULE__{code: code, ip: ip} = vm, _breakpoints)
-      when ip < 0 or ip >= tuple_size(code),
-      do: vm
-
+  def debug(%__MODULE__{} = vm, _breakpoints) when halted?(vm), do: vm
   def debug(vm, breakpoints), do: vm |> dump_await(breakpoints) |> step() |> debug(breakpoints)
 
-  # Run a single instruction. If it is patched, all instructions in the patch are run at once.
+  # Run the next instruction. If it is patched, all instructions in the patch are executed.
   defp step(%__MODULE__{code: code, ip: ip, patches: patches} = vm) do
     case Map.get(patches, ip) do
       nil -> vm |> execute(elem(code, ip))
