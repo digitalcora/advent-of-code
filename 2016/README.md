@@ -1,6 +1,6 @@
 # Advent of Code 2016
 
-🚧 These solutions are **in progress**!
+🏁 These solutions are **complete** as of `2022-09-06`.
 
 ### Setup
 
