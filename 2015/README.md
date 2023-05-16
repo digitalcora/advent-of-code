@@ -65,11 +65,12 @@ puzzles) came in under 50 lines of code. This made me confident that "standard
 library only" would be a good personal rule for future events.
 
 I do remember [Day 22](days/22) being the most intimidating puzzle, which may
-partly explain the 2.5-year gap before I completed it. Returning with a few
+partly explain the 2-year gap before I completed it. Returning with a couple
 additional years of programming experience, I couldn't remember exactly what
 had made it so challenging.
 
-[Ruby 3.0](https://www.ruby-lang.org/en/news/2020/12/25/ruby-3-0-0-released/)
-released several years after I wrapped up this event, and since I'm no longer
-actively using Ruby, I have no plans to upgrade this code to work with 3.0 or
-take advantage of its features.
+Since [Ruby 3.0][r300] released long after I finished this event, and I have
+limited interest in the language now, the code is untested on "modern" Ruby and
+I don't plan on upgrading it to use newer features.
+
+[r300]: https://www.ruby-lang.org/en/news/2020/12/25/ruby-3-0-0-released/
