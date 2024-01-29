@@ -6,10 +6,11 @@ Event            | Language | Status | Started    | Completed
 :--------------: | :------: | :----: | :--------: | :--------:
 [**2015**](2015) | [Ruby]   | 🏁     | 2015-12-04 | 2018-11-29
 [**2016**](2016) | [Elixir] | 🏁     | 2018-12-13 | 2022-08-19
- **2017**        |  TBD     | 💭     |
+[**2017**](2017) | [Rust]   | 📝     | 2024-01-29 |
 
 [Ruby]: https://www.ruby-lang.org/
 [Elixir]: https://elixir-lang.org/
+[Rust]: https://www.rust-lang.org/
 
 ### Personal Rules
 
@@ -21,7 +22,7 @@ part of AoC itself.
 3. Use only the language's standard library, within reason*.
 4. Include all official example inputs in the project as automated test cases.
 
-\* _using third-party tools for things like testing or type checking is fine_
+\* _using third-party tools for things like testing or type-checking is fine_
 
 ### Setup Notes
 

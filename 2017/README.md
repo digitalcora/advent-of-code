@@ -1,0 +1,21 @@
+# Advent of Code 2017
+
+📝 These solutions are **in progress**!
+
+
+### Setup
+
+No setup is needed beyond having Rust installed.
+
+
+### Commands
+
+* Run the tests: `cargo test`
+* Generate docs: `cargo doc`
+
+
+### Solutions
+
+&nbsp;                                                      | Completed
+----------------------------------------------------------- | :--------:
+[Day 1: Inverse Captcha](src/day01)                         | 2024-01-29
