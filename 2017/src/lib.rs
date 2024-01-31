@@ -3,3 +3,4 @@
 //! 🌟 are direct links to the corresponding puzzle on the AoC site.
 
 pub mod day01;
+pub mod day02;
