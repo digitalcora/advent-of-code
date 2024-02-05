@@ -10,16 +10,16 @@ mod tests;
 ///
 /// # Panics
 ///
-/// Panics if any cell cannot be parsed as [`u32`].
+/// Panics if any cell cannot be parsed as [`usize`].
 ///
-pub fn checksum(input: &str) -> u32 {
-    const MAXMIN: [u32; 2] = [u32::MAX, u32::MIN];
+pub fn checksum(input: &str) -> usize {
+    const MAXMIN: [usize; 2] = [usize::MAX, usize::MIN];
 
     input
         .lines()
         .map(|line| {
             let minmax = line.split_whitespace().fold(MAXMIN, |[min, max], cell| {
-                let num = cell.parse::<u32>().expect("cell values should be u32");
+                let num = cell.parse::<usize>().expect("cell values should be usize");
                 [num.min(min), num.max(max)]
             });
 
@@ -40,16 +40,16 @@ pub fn checksum(input: &str) -> u32 {
 ///
 /// # Panics
 ///
-/// Panics if any cell cannot be parsed as [`u32`], or if any row does not contain a pair of values
+/// Panics if any cell cannot be parsed as [`usize`], or any row does not contain a pair of values
 /// that divide evenly.
 ///
-pub fn divsum(input: &str) -> u32 {
+pub fn divsum(input: &str) -> usize {
     input
         .lines()
         .map(|line| {
             let nums = line
                 .split_whitespace()
-                .map(|cell| cell.parse::<u32>().expect("cell values should be u32"))
+                .map(|cell| cell.parse::<usize>().expect("cell values should be usize"))
                 .collect::<Vec<_>>();
 
             nums.iter()

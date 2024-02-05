@@ -2,14 +2,15 @@
 
 mod tests;
 
-/// Given a string of decimal digits, returns the sum of all digits where the same digit is present
-/// at a corresponding "matching" location in the string.
+/// Returns the sum of "matching" digits in a string of decimal digits.
+///
+/// Whether a digit has a match and contributes to the sum is determined by [`How`].
 ///
 /// # Panics
 ///
 /// May panic when the input contains bytes other than `b'0'` through `b'9'`.
 ///
-pub fn solve(input: &str, how: How) -> u32 {
+pub fn solve(input: &str, how: How) -> usize {
     // Since '0' through '9' are encoded sequentially (and as one byte) in UTF-8, we can iterate
     // over the raw bytes of the input slice, subtracting the byte value of '0' to get a numeric
     // value for a character. The performance advantage over `chars` and `to_digit` is irrelevant
@@ -24,19 +25,22 @@ pub fn solve(input: &str, how: How) -> u32 {
 
     let matches = bytes.clone().cycle().skip(skip_n);
 
-    bytes.zip(matches).fold(0, |sum, (byte, other)| {
-        if byte == other {
-            sum + { byte - b'0' } as u32
-        } else {
-            sum
-        }
-    })
+    bytes
+        .zip(matches)
+        .map(|(byte, other)| {
+            if byte == other {
+                (byte - b'0') as usize
+            } else {
+                0
+            }
+        })
+        .sum()
 }
 
-/// Indicates how [`solve`] should find the "match" for a given digit.
+/// Indicates how [`solve`] should look for matching digits.
 ///
-/// In all cases, the list of digits is treated as circular: the next digit after the last one is
-/// the first one.
+/// Iff the digit at this position is the same as the one being checked, it matches. Note the list
+/// of digits is treated as circular: the next digit after the last one is the first one.
 pub enum How {
     /// The digit following the current one.
     Next,
