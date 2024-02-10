@@ -22,3 +22,4 @@ No setup is needed beyond having Rust installed.
 [Day 2: Corruption Checksum](src/day02)                     | 2024-01-31
 [Day 3: Spiral Memory](src/day03)                           | 2024-02-01
 [Day 4: High-Entropy Passphrases](src/day04)                | 2024-02-02
+[Day 5: A Maze of Twisty Trampolines, All Alike](src/day05) | 2024-02-10
