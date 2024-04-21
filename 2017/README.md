@@ -23,3 +23,4 @@ No setup is needed beyond having Rust installed.
 [Day 3: Spiral Memory](src/day03)                           | 2024-02-01
 [Day 4: High-Entropy Passphrases](src/day04)                | 2024-02-02
 [Day 5: A Maze of Twisty Trampolines, All Alike](src/day05) | 2024-02-10
+[Day 6: Memory Reallocation](src/day06)                     | 2024-04-21
