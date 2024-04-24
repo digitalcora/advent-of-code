@@ -2,8 +2,6 @@
 
 mod tests;
 
-use std::iter::FusedIterator;
-
 /// Returns how many steps a [`Machine`] with the given program and [`Rule`] will take to halt.
 ///
 /// The program should be a whitespace-separated list of instructions, which are signed integers.
@@ -13,13 +11,18 @@ use std::iter::FusedIterator;
 /// Panics if any instruction cannot be parsed as [`isize`].
 ///
 pub fn steps_to_halt(input: &str, rule: Rule) -> usize {
+    use std::iter;
+
     let program = input
         .split_whitespace()
         .map(|value| value.parse::<isize>().expect("offsets should be integers"))
         .collect::<Vec<_>>();
 
-    let machine = Machine::new(program.into(), rule);
-    machine.count()
+    let mut machine = Machine::new(program.into(), rule);
+
+    iter::from_fn(move || Some(machine.step()))
+        .take_while(|&did_step| did_step)
+        .count()
 }
 
 /// Controls what happens to a [`Machine`] instruction after it is executed.
@@ -30,11 +33,7 @@ pub enum Rule {
     LessThanThree,
 }
 
-/// Iterator representing a very simple "CPU" with only one instruction type.
-///
-/// Advancing the iterator either executes the next instruction, or halts if the instruction pointer
-/// is outside the bounds of the program. Since the machine does not expose any state other than
-/// whether it has halted, the values produced are simply `()`.
+/// Represents a very simple "CPU" with only one instruction type.
 pub struct Machine {
     ip: isize, // instruction pointer
     program: Box<[isize]>,
@@ -44,10 +43,8 @@ pub struct Machine {
 impl Machine {
     /// Initializes a machine.
     ///
-    /// Since there is only one instruction type, a relative jump, the "program" is an array of jump
-    /// offsets. The instruction pointer begins at the first instruction (index 0).
-    ///
-    /// The [`Rule`] controls how an instruction is updated after being executed.
+    /// Since there is only one instruction type (a relative jump), the "program" is an array of
+    /// jump offsets. The instruction pointer begins at the first instruction (index 0).
     pub fn new(program: Box<[isize]>, rule: Rule) -> Self {
         Self {
             ip: 0,
@@ -55,14 +52,17 @@ impl Machine {
             rule,
         }
     }
-}
 
-impl Iterator for Machine {
-    type Item = ();
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.ip.try_into().map_or(None, |uip: usize| {
-            self.program.get_mut(uip).map_or(None, |value| {
+    /// Executes a single instruction.
+    ///
+    /// If the instruction pointer is within the bounds of the program, it is advanced by the
+    /// current instruction's value, the just-executed instruction is modified according to the
+    /// machine's [`Rule`], and `true` is returned.
+    ///
+    /// Otherwise, does nothing and returns `false` (the machine is halted).
+    pub fn step(&mut self) -> bool {
+        self.ip.try_into().map_or(false, |uip: usize| {
+            self.program.get_mut(uip).map_or(false, |value| {
                 self.ip += *value;
 
                 *value += match self.rule {
@@ -76,10 +76,8 @@ impl Iterator for Machine {
                     }
                 };
 
-                Some(())
+                true
             })
         })
     }
 }
-
-impl FusedIterator for Machine {}
