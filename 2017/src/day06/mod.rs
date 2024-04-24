@@ -10,7 +10,7 @@ mod tests;
 /// enter the cycle from the initial state. When false, it is just the length of the cycle. As an
 /// example, representing distinct states with letters:
 ///
-/// ```
+/// ```text
 /// A -> B -> [ C -> D -> E -> C ]
 /// ```
 ///
