@@ -79,7 +79,7 @@ defmodule Advent.Day24 do
           ?. -> maze
           ?# -> %{maze | walls: MapSet.put(walls, {x, y})}
           ?0 -> %{maze | start: {x, y}}
-          char when char in '123456789' -> %{maze | goals: [{x, y} | goals]}
+          char when char in ~c[123456789] -> %{maze | goals: [{x, y} | goals]}
         end
       end)
     end)

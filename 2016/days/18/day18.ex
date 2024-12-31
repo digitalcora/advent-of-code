@@ -12,15 +12,15 @@ defmodule Advent.Day18 do
   defp next_row(row) do
     # For the purposes of generating the next row, each row effectively has an extra untrapped
     # tile on each end.
-    ('.' ++ row ++ '.')
+    (~c[.] ++ row ++ ~c[.])
     |> Enum.chunk_every(3, 1, :discard)
     |> Enum.map(&next_tile/1)
   end
 
-  defp next_tile('^^.'), do: ?^
-  defp next_tile('.^^'), do: ?^
-  defp next_tile('^..'), do: ?^
-  defp next_tile('..^'), do: ?^
+  defp next_tile(~c[^^.]), do: ?^
+  defp next_tile(~c[.^^]), do: ?^
+  defp next_tile(~c[^..]), do: ?^
+  defp next_tile(~c[..^]), do: ?^
   defp next_tile([_, _, _]), do: ?.
 
   defp safe?(?.), do: true
