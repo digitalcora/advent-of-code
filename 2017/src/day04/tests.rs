@@ -1,7 +1,7 @@
 #![cfg(test)]
 
-use super::count_valid;
 use super::Rule::{Anagram, Unique};
+use super::count_valid;
 
 #[test]
 fn examples_silver() {

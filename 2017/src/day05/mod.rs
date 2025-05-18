@@ -61,8 +61,8 @@ impl Machine {
     ///
     /// Otherwise, does nothing and returns `false` (the machine is halted).
     pub fn step(&mut self) -> bool {
-        self.ip.try_into().map_or(false, |uip: usize| {
-            self.program.get_mut(uip).map_or(false, |value| {
+        self.ip.try_into().is_ok_and(|uip: usize| {
+            self.program.get_mut(uip).is_some_and(|value| {
                 self.ip += *value;
 
                 *value += match self.rule {

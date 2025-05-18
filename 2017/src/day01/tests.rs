@@ -1,7 +1,7 @@
 #![cfg(test)]
 
-use super::solve;
 use super::How::{Next, Opposite};
+use super::solve;
 
 #[test]
 fn examples_silver() {

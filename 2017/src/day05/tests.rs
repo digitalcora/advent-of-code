@@ -1,7 +1,7 @@
 #![cfg(test)]
 
-use super::steps_to_halt;
 use super::Rule::{Always, LessThanThree};
+use super::steps_to_halt;
 
 #[test]
 fn examples_silver() {
